@@ -41,3 +41,7 @@ Project Info
 Github project page: https://github.com/pooya-eghbali/lambdaJSON
 PyPi: https://pypi.python.org/pypi/lambdaJSON
 Mail me at: persian.writer [at] Gmail.com
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pooya-eghbali/lambdajson/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
