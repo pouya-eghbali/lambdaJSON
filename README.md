@@ -24,4 +24,4 @@ This types are covered in this version:
 3. Dicts (With Number, Tuple, String and Byte keys)
 4. other json supported types
 
-Github project page: https://github.com/pooya-eghbali/lambdaJSON
+PyPi project page: https://pypi.python.org/pypi/lambdaJSON
