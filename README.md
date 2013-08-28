@@ -31,8 +31,14 @@ Changes
 
 Added support for python 2 long type.
 
+Download
+========
+
+Download package from here: https://pypi.python.org/pypi/lambdaJSON
+
 Project Info
 ============
 
 Github project page: https://github.com/pooya-eghbali/lambdaJSON
+PyPi: https://pypi.python.org/pypi/lambdaJSON
 Mail me at: persian.writer [at] Gmail.com
