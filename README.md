@@ -2,7 +2,8 @@
 lambdaJSON
 ===========
 Serialize python standard types (tuple, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
-lambdaJSON lets you serialize python standard library objects with json.
+lambdaJSON lets you serialize python standard library objects
+with json.
 Typical usage::
 
     #!/usr/bin/env python
@@ -22,13 +23,13 @@ This types are covered in this version:
 
 1. Bytes
 2. Tuples
-3. Dicts (With Number, Tuple, String and Byte keys)
+3. Dicts (With Number, Tuple, String, Bool and Byte keys)
 4. other json supported types
 
-Changes
-=======
+Changes from previous
+=====================
 
-Added support for python 2 long type.
+Added support for bool as dict key.
 
 Download
 ========
