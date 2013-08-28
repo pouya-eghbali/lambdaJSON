@@ -2,8 +2,9 @@
 lambdaJSON
 ===========
 
+Serialize python standard types (tuple, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects
-with <json>.
+with json.
 Typical usage::
 
     #!/usr/bin/env python
@@ -12,7 +13,7 @@ Typical usage::
 
     mySerialisedObject = lambdaJSON.serialize({(1,2,3):{b'lambda':[b'json',1,3]}, 45: 'test'})
 	
-	myDeserialisedObject = lambdaJSON.deserialize(mySerialisedObject)
+    myDeserialisedObject = lambdaJSON.deserialize(mySerialisedObject)
 
 Currently Supported Types
 =========================
