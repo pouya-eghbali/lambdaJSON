@@ -30,7 +30,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Support for py2 long with no hacks!
+Security fix. Using ast.literal_eval as eval.
 
 Download
 ========
