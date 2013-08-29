@@ -1,4 +1,4 @@
-v0.1.6, August 29 2013
+v0.1.6, August 30 2013
 -- Added support for a faster json lib: ujson.
 
 v0.1.5, August 29 2013
