@@ -30,7 +30,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added support for a faster json lib: ujson.
+Fixed a problem came from vars(__builtins__)
 
 Download
 ========
