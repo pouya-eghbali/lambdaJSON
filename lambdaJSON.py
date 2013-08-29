@@ -1,8 +1,5 @@
 import json
 
-try:    long
-except: exec('class long: pass')
-
 flatten = lambda obj:          (isinstance(obj, bytes) 
                         and    (b'bytes://'+obj).decode('utf8') 
                         or     isinstance(obj, tuple) 
@@ -12,7 +9,9 @@ flatten = lambda obj:          (isinstance(obj, bytes)
                         or     isinstance(obj, list) 
                         and    [flatten(i) for i in obj] 
                         or     isinstance(obj, dict) 
-                        and    {(lambda x: isinstance(x, (bool, int, float, complex, long)) 
+                        and    {(lambda x: isinstance(x, ('long' in vars(__builtins__)
+                        and    (bool, int, float, complex, long))
+                        or     (bool, int, float, complex)) 
                         and    str(type(x))[8:-2]+'://'+str(x) 
                         or     flatten(x))(i):flatten(obj[i]) for i in obj} 
                         or     obj)
