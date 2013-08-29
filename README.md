@@ -9,9 +9,9 @@ Typical usage::
     #!/usr/bin/env python
 
     >>> import lambdaJSON
-    >>> myComplexData = {(3+5j): b'json', (1, 2, 3): {b'lambda': [1, 2, 3, (3, 4, 5)]}}
+    >>> myComplexData = {True: (3-5j), (3+5j): b'json', (1, 2, 3): {b'lambda': [1, 2, 3, (3, 4, 5)]}}
     >>> mySerializedData = lambdaJSON.serialize(myComplexData)
-    >>> myComplexData  == lambdaJSON.deserialize(mySerializedData )
+    >>> myComplexData  == lambdaJSON.deserialize(mySerializedData)
     True
 
     >>> 
@@ -23,13 +23,14 @@ This types are covered in this version:
 
 1. Bytes
 2. Tuples
-3. Dicts (With Number, Tuple, String, Bool and Byte keys)
-4. other json supported types
+3. Complex
+4. Dicts (With Number, Tuple, String, Bool and Byte keys)
+5. other json supported types
 
 Changes from previous
 =====================
 
-Added support for bool as dict key.
+Added support for Complex numbers.
 
 Download
 ========
