@@ -30,7 +30,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Security fix. Using ast.literal_eval as eval.
+Added support for a faster json lib: ujson.
 
 Download
 ========
