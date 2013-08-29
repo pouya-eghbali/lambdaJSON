@@ -1,4 +1,5 @@
-import json
+try: import ujson as json
+except: import json
 from ast import literal_eval as eval
 
 flatten = lambda obj:          (isinstance(obj, bytes) 
