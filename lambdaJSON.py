@@ -11,7 +11,7 @@ flatten = lambda obj:          (isinstance(obj, bytes)
                         or     isinstance(obj, list) 
                         and    [flatten(i) for i in obj] 
                         or     isinstance(obj, dict) 
-                        and    {(lambda x: isinstance(x, ('long' in vars(__builtins__)
+                        and    {(lambda x: isinstance(x, (hasattr(__builtins__, 'long')
                         and    (bool, int, float, complex, long))
                         or     (bool, int, float, complex)) 
                         and    str(type(x))[8:-2]+'://'+str(x) 
