@@ -30,7 +30,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added support for Complex numbers.
+Support for py2 long with no hacks!
 
 Download
 ========
