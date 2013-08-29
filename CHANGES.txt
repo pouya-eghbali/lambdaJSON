@@ -1,3 +1,6 @@
+v0.1.5, August 29 2013
+-- Security fix. Using ast.literal_eval as eval.
+
 v0.1.4, August 29 2013
 -- Support for py2 long with no hacks!
 
