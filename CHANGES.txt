@@ -1,3 +1,6 @@
+v0.1.6, August 29 2013
+-- Added support for a faster json lib: ujson.
+
 v0.1.5, August 29 2013
 -- Security fix. Using ast.literal_eval as eval.
 
