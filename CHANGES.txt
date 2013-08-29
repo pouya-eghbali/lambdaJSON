@@ -1,3 +1,6 @@
+v0.1.7, August 30 2013
+-- Fixed a problem came from vars(__builtins__)
+
 v0.1.6, August 30 2013
 -- Added support for a faster json lib: ujson.
 
