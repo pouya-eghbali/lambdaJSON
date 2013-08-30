@@ -1,3 +1,6 @@
+v0.1.10, August 30 2013
+-- Fixed a problem with *args and **kwargs
+
 v0.1.9, August 30 2013
 -- Moved 'long' type existence determination outside of function to increase speed.
 
