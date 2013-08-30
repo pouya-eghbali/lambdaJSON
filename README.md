@@ -1,7 +1,9 @@
 ===========
 lambdaJSON
 ===========
-Serialize python standard types (tuple, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
+Serialize python standard types (tuple, complex, bytes, dict with number keys, byte keys or tuple 
+
+keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects
 with json.
 Typical usage::
@@ -15,6 +17,15 @@ Typical usage::
     True
 
     >>> 
+
+To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, 
+
+example for json::
+
+    >>> mySerializedData = lambdaJSON.serialize(myComplexData, sort_keys = True)
+    >>> myComplexData  == lambdaJSON.deserialize(mySerializedData, object_hook = my_hook)
+
+It can be done for ujson too.
 
 Currently Supported Types
 =========================
@@ -30,7 +41,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Fixed a problem came from vars(__builtins__)
+Ability to pass args and kwargs to the json encoder/decoder.
 
 Download
 ========
