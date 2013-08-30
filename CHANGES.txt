@@ -1,3 +1,6 @@
+v0.1.9, August 30 2013
+-- Moved 'long' type existence determination outside of function to increase speed.
+
 v0.1.8, August 30 2013
 -- Ability to pass args and kwargs to the json encoder/decoder.
 
