@@ -2,6 +2,10 @@ try: import ujson as json
 except: import json
 from ast import literal_eval as eval
 
+ntypes  = (                    (hasattr(__builtins__, 'long')
+                        and    (bool, int, float, complex, long))
+                        or     (bool, int, float, complex))
+
 flatten = lambda obj:          (isinstance(obj, bytes) 
                         and    (b'bytes://'+obj).decode('utf8') 
                         or     isinstance(obj, tuple) 
@@ -11,9 +15,7 @@ flatten = lambda obj:          (isinstance(obj, bytes)
                         or     isinstance(obj, list) 
                         and    [flatten(i) for i in obj] 
                         or     isinstance(obj, dict) 
-                        and    {(lambda x: isinstance(x, (hasattr(__builtins__, 'long')
-                        and    (bool, int, float, complex, long))
-                        or     (bool, int, float, complex)) 
+                        and    {(lambda x: isinstance(x, ntypes) 
                         and    str(type(x))[8:-2]+'://'+str(x) 
                         or     flatten(x))(i):flatten(obj[i]) for i in obj} 
                         or     obj)
