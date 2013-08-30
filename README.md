@@ -41,7 +41,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Ability to pass args and kwargs to the json encoder/decoder.
+Moved 'long' type existence determination outside of function to increase speed.
 
 Download
 ========
