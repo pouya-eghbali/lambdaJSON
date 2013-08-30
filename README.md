@@ -41,7 +41,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Moved 'long' type existence determination outside of function to increase speed.
+Fixed a problem with *args and **kwargs
 
 Download
 ========
