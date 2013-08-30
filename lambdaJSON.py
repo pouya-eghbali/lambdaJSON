@@ -41,6 +41,6 @@ restore = lambda obj:          (isinstance(obj, str)
                         and    {restore(i):restore(obj[i]) for i in obj} 
                         or     obj)
 
-serialize   = lambda obj, *args, **kwargs: json.dumps(flatten(obj))
-deserialize = lambda obj, *args, **kwargs: restore(json.loads(obj))
+serialize   = lambda obj, *args, **kwargs: json.dumps(flatten(obj), *args, **kwargs)
+deserialize = lambda obj, *args, **kwargs: restore(json.loads(obj, *args, **kwargs))
 
