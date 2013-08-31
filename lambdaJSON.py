@@ -23,7 +23,8 @@ flatten = lambda obj:          (isinstance(obj, bytes)
                         or     flatten(x))(i):flatten(obj[i]) for i in obj} 
                         or     obj)
 
-restore = lambda obj:          (isinstance(obj, str) 
+restore = lambda obj, globs:\
+                               (isinstance(obj, str) 
                         and    (lambda x: x.startswith('bytes://') 
                         and    bytes(x[8:], encoding = 'utf8') 
                         or     x.startswith('int://') 
@@ -37,7 +38,7 @@ restore = lambda obj:          (isinstance(obj, str)
                         or     x.startswith('complex://')
                         and    complex(x[10:])
                         or     x.startswith('function://')
-                        and    defreezef(eval(x[11:]))
+                        and    defreezef(eval(x[11:]), globs = globs)
                         or     x.startswith('tuple://') 
                         and    eval(x[8:]) or x)(obj) 
                         or     isinstance(obj, list) 
@@ -47,5 +48,10 @@ restore = lambda obj:          (isinstance(obj, str)
                         or     obj)
 
 serialize   = lambda obj, *args, **kwargs: json.dumps(flatten(obj), *args, **kwargs)
-deserialize = lambda obj, *args, **kwargs: restore(json.loads(obj, *args, **kwargs))
+deserialize = lambda obj, *args, **kwargs: restore(json.loads(obj, *args,
+                                           **{arg:kwargs[arg] for arg in kwargs if not arg == 'globs'}),
+                                           globs = (lambda: 'globs' in kwargs and
+                                           dict([(arg, kwargs['globs'][arg]) for arg in kwargs['globs']]
+                                           +[('__builtins__',__builtins__)])
+                                           or {'__builtins__':__builtins__})())
 
