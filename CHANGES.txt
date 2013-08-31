@@ -1,3 +1,6 @@
+v0.2.0, August 31 2013
+-- Added ability to serialize functions.
+
 v0.1.10, August 30 2013
 -- Fixed a problem with *args and **kwargs
 
