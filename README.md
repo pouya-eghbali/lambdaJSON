@@ -28,12 +28,12 @@ example for json::
 It can be done for ujson too. You can also serialize python functions::
 
     >>> import lambdaJSON
-    >>> def f(x): return x*x
+    >>> def f(): print('lambdaJSON Rocks!')
     
     >>> mySerializedFunction = lambdaJSON.serialize(f)
     >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction)
-    >>> myNewFunction(10)
-    100
+    >>> myNewFunction()
+    'lambdaJSON Rocks!'
     >>>
 
 Currently Supported Types
@@ -51,7 +51,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added ability to serialize functions.
+Added __builtins__ to deserialized Functions. (Next version will cover all globals inside function)
 
 Download
 ========
