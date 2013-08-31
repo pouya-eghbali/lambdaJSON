@@ -15,9 +15,7 @@ Typical usage::
 
     >>> 
 
-To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, 
-
-example for json::
+To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, example for json::
 
     >>> mySerializedData = lambdaJSON.serialize(myComplexData, sort_keys = True)
     >>> myComplexData  == lambdaJSON.deserialize(mySerializedData, object_hook = my_hook)
@@ -32,6 +30,20 @@ It can be done for ujson too. You can also serialize python functions::
     >>> myNewFunction()
     'lambdaJSON Rocks!'
     >>>
+
+Added in version 0.2.2, you can pass the list of globals for function deserialization, see the example below::
+
+    >>> import lambdaJSON
+    >>> y = 10
+    >>> def f(x): return x*y
+    
+    >>> mySerializedFunction = lambdaJSON.serialize(f)
+    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction, globs = {'y':11})
+    >>> myNewFunction(5)
+    55
+    >>>
+
+I'm working on a way to pass real references to the global variables, not just an static value, any suggestions are welcome.
 
 Currently Supported Types
 =========================
@@ -48,7 +60,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added __builtins__ to deserialized Functions. (Next version will cover all globals inside function)
+Ability to pass globals to deserialized Functions.
 
 Download
 ========
