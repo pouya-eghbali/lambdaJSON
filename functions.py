@@ -27,7 +27,8 @@ try:
                                    co_dict['co_filename'],
                                    co_dict['co_name'],
                                    co_dict['co_firstlineno'],
-                                   co_dict['co_lnotab']),{},'')
+                                   co_dict['co_lnotab']),
+                                   {'__builtins__':__builtins__},'')
 except:
     freezef = lambda function:     {'co_argcount': function.func_code.co_argcount,
                                    'co_nlocals': function.func_code.co_nlocals,
@@ -55,4 +56,5 @@ except:
                                    co_dict['co_filename'],
                                    co_dict['co_name'],
                                    co_dict['co_firstlineno'],
-                                   co_dict['co_lnotab']),{},'')
+                                   co_dict['co_lnotab']),
+                                   {'__builtins__':__builtins__},'')
