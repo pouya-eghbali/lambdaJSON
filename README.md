@@ -25,23 +25,33 @@ example for json::
     >>> mySerializedData = lambdaJSON.serialize(myComplexData, sort_keys = True)
     >>> myComplexData  == lambdaJSON.deserialize(mySerializedData, object_hook = my_hook)
 
-It can be done for ujson too.
+It can be done for ujson too. You can also serialize python functions::
+
+    >>> import lambdaJSON
+    >>> def f(x): return x*x
+    
+    >>> mySerializedFunction = lambdaJSON.serialize(f)
+    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction)
+    >>> myNewFunction(10)
+    100
+    >>>
 
 Currently Supported Types
 =========================
 
 This types are covered in this version:
 
-1. Bytes
-2. Tuples
-3. Complex
-4. Dicts (With Number, Tuple, String, Bool and Byte keys)
-5. other json supported types
+1. Functions
+2. Bytes
+3. Tuples
+4. Complex
+5. Dicts (With Number, Tuple, String, Bool and Byte keys)
+6. other json supported types
 
 Changes from previous
 =====================
 
-Fixed a problem with *args and **kwargs
+Added ability to serialize functions.
 
 Download
 ========
