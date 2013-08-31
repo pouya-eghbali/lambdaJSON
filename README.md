@@ -43,7 +43,7 @@ Added in version 0.2.2, you can pass the list of globals for function deserializ
     55
     >>>
 
-I'm working on a way to pass real references to the global variables, not just an static value, any suggestions are welcome.
+I'm working on a way to pass real references to the global variables, not just a static value, any suggestions are welcome.
 
 Currently Supported Types
 =========================
