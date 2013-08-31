@@ -42,9 +42,9 @@ restore = lambda obj, globs:\
                         or     x.startswith('tuple://') 
                         and    eval(x[8:]) or x)(obj) 
                         or     isinstance(obj, list) 
-                        and    [restore(i) for i in obj] 
+                        and    [restore(i, globs) for i in obj] 
                         or     isinstance(obj, dict) 
-                        and    {restore(i):restore(obj[i]) for i in obj} 
+                        and    {restore(i, globs):restore(obj[i], globs) for i in obj} 
                         or     obj)
 
 serialize   = lambda obj, *args, **kwargs: json.dumps(flatten(obj), *args, **kwargs)
