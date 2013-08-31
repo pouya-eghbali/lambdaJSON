@@ -1,6 +1,7 @@
 try: import ujson as json
 except: import json
 from ast import literal_eval as eval
+from lambdaJSON.functions import defreezef, freezef
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
                         and    (bool, int, float, complex, long))
@@ -11,7 +12,9 @@ flatten = lambda obj:          (isinstance(obj, bytes)
                         or     isinstance(obj, tuple) 
                         and    'tuple://'+str(obj)
                         or     isinstance(obj, complex) 
-                        and    'complex://'+str(obj) 
+                        and    'complex://'+str(obj)
+                        or     isinstance(obj, type(lambda: None)) 
+                        and    'function://'+str(freezef(obj)) 
                         or     isinstance(obj, list) 
                         and    [flatten(i) for i in obj] 
                         or     isinstance(obj, dict) 
@@ -33,6 +36,8 @@ restore = lambda obj:          (isinstance(obj, str)
                         and    eval(x[7:]) 
                         or     x.startswith('complex://')
                         and    complex(x[10:])
+                        or     x.startswith('function://')
+                        and    defreezef(eval(x[11:]))
                         or     x.startswith('tuple://') 
                         and    eval(x[8:]) or x)(obj) 
                         or     isinstance(obj, list) 
