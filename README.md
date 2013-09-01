@@ -1,18 +1,18 @@
 ===========
 lambdaJSON
 ===========
-Serialize python standard types (tuple, complex, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
+Serialize python standard types (function, tuple, complex, range, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects with json.
 Typical usage::
 
     #!/usr/bin/env python
-
+    
     >>> import lambdaJSON
     >>> myComplexData = {True: (3-5j), (3+5j): b'json', (1, 2, 3): {b'lambda': [1, 2, 3, (3, 4, 5)]}}
     >>> mySerializedData = lambdaJSON.serialize(myComplexData)
     >>> myComplexData  == lambdaJSON.deserialize(mySerializedData)
     True
-
+    
     >>> 
 
 To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, example for json::
@@ -43,7 +43,9 @@ Added in version 0.2.2, you can pass the list of globals for function deserializ
     55
     >>>
 
-I'm working on a way to pass real references to the global variables, not just a static value, any suggestions are welcome.
+I'm working on a way to pass real references to the global variables, not just an static value, any suggestions are welcome.
+
+After the support for all types are added, I'm planning to release a query friendly version of this library, that will be in version 0.3.0.
 
 Currently Supported Types
 =========================
@@ -54,13 +56,14 @@ This types are covered in this version:
 2. Bytes
 3. Tuples
 4. Complex
-5. Dicts (With Number, Tuple, String, Bool and Byte keys)
-6. other json supported types
+5. Range
+6. Dicts (With Number, Tuple, String, Bool and Byte keys)
+7. other json supported types
 
 Changes from previous
 =====================
 
-Ability to pass globals to deserialized Functions.
+Added Range support.
 
 Download
 ========
