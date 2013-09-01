@@ -31,19 +31,40 @@ It can be done for ujson too. You can also serialize python functions::
     'lambdaJSON Rocks!'
     >>>
 
-Added in version 0.2.2, you can pass the list of globals for function deserialization, see the example below::
+Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the function::
 
     >>> import lambdaJSON
     >>> y = 10
     >>> def f(x): return x*y
     
     >>> mySerializedFunction = lambdaJSON.serialize(f)
-    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction, globs = {'y':11})
+    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction, globs = (lambda: globals()))
     >>> myNewFunction(5)
-    55
+    50
+    >>> y = 3
+    >>> myNewFunction(5)
+    15
     >>>
 
-I'm working on a way to pass real references to the global variables, not just an static value, any suggestions are welcome.
+If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
+
+    >>> z = 10
+    >>> def g():
+            global z
+            z += 1
+            return {'z':z}
+    
+    >>> def f(x,y): return x*y+z
+    
+    >>> mySerializedFunction = lambdaJSON.serialize(f)
+    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction, globs = g)
+    >>> myNewFunction(2,3)
+    17
+    >>> myNewFunction(2,3)
+    18
+    >>>
+
+isn't it cool?? 
 
 After the support for all types are added, I'm planning to release a query friendly version of this library, that will be in version 0.3.0.
 
@@ -63,7 +84,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added Range support.
+globs for function deserialization now must be a function.
 
 Download
 ========
