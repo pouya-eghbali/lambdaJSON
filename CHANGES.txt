@@ -1,3 +1,6 @@
+v0.2.5, September 1 2013
+-- Added support for set and frozenset.
+
 v0.2.4, September 1 2013
 -- globs for function deserialization now must be a function.
 
