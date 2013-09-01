@@ -14,7 +14,9 @@ try:
                                    'co_lnotab': function.__code__.co_lnotab}
 
     defreezef = lambda co_dict, globs:\
-                                   type(lambda: None)(
+                                   eval("""(lambda lambdaJSON_globs = globs,
+                                   co_dict = co_dict: (lambda %s:
+                                   (type(lambda: None)(
                                    type((lambda: None).__code__)(
                                    co_dict['co_argcount'],
                                    co_dict['co_kwonlyargcount'],
@@ -29,7 +31,9 @@ try:
                                    co_dict['co_name'],
                                    co_dict['co_firstlineno'],
                                    co_dict['co_lnotab']),
-                                   globs,'')
+                                   lambdaJSON_globs(),'')(%s))))()"""%
+                                   ((','.join(['%s'%a for a
+                                   in co_dict['co_varnames']]),)*2))
 except:
     freezef = lambda function:     {'co_argcount': function.func_code.co_argcount,
                                    'co_nlocals': function.func_code.co_nlocals,
@@ -45,8 +49,10 @@ except:
                                    'co_lnotab': function.func_code.co_lnotab}
 
     defreezef = lambda co_dict, globs:\
-                                   type(lambda: None)(
-                                   type((lambda: None).func_code)(
+                                   eval("""(lambda lambdaJSON_globs = globs,
+                                   co_dict = co_dict: (lambda %s:
+                                   (type(lambda: None)(
+                                   type((lambda: None).__code__)(
                                    co_dict['co_argcount'],
                                    co_dict['co_nlocals'],
                                    co_dict['co_stacksize'],
@@ -59,4 +65,6 @@ except:
                                    co_dict['co_name'],
                                    co_dict['co_firstlineno'],
                                    co_dict['co_lnotab']),
-                                   globs,'')
+                                   lambdaJSON_globs(),'')(%s))))()"""%
+                                   ((','.join(['%s'%a for a
+                                   in co_dict['co_varnames']]),)*2))
