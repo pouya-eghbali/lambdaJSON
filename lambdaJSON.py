@@ -55,7 +55,4 @@ serialize   = lambda obj, *args, **kwargs: json.dumps(flatten(obj), *args, **kwa
 deserialize = lambda obj, *args, **kwargs: restore(json.loads(obj, *args,
                                            **{arg:kwargs[arg] for arg in kwargs if not arg == 'globs'}),
                                            globs = (lambda: 'globs' in kwargs and
-                                           dict([(arg, kwargs['globs'][arg]) for arg in kwargs['globs']]
-                                           +[('__builtins__',__builtins__)])
-                                           or {'__builtins__':__builtins__})())
-
+                                           kwargs['globs'] or (lambda:{'__builtins__':__builtins__}))())
