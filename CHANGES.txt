@@ -1,5 +1,9 @@
+v0.2.3, September 1 2013
+-- Added Range support.
+
 v0.2.2, August 31 2013
 -- Ability to pass globals to deserialized Functions.
+-- Fixed a problem with globs exception on lists and dicts.
 
 v0.2.1, August 31 2013
 -- Added __builtins__ to deserialized Functions.
