@@ -85,7 +85,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added support for set and frozenset.
+Fixed a compatibility issue.
 
 Download
 ========
