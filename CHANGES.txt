@@ -1,3 +1,6 @@
+v0.2.7, September 2 2013
+-- Fixed a problem where objects in tuples didn't truely serialized.
+
 v0.2.6, September 2 2013
 -- Fixed a compatibility issue.
 
