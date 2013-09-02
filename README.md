@@ -85,7 +85,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Fixed a compatibility issue.
+Fixed a problem where objects in tuples didn't truely serialized.
 
 Download
 ========
