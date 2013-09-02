@@ -1,3 +1,6 @@
+v0.2.6, September 2 2013
+-- Fixed a compatibility issue.
+
 v0.2.5, September 1 2013
 -- Added support for set and frozenset.
 
