@@ -97,7 +97,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added support for bytearray.
+Better code for function freezing.
 
 Download
 ========
