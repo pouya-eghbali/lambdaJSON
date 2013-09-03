@@ -1,7 +1,9 @@
 ===========
 lambdaJSON
 ===========
-Serialize python standard types (function, tuple, complex, set, frozenset, range, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
+Serialize python standard types (function, tuple, complex, set, frozenset, range, bytearray, bytes, 
+
+dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects with json.
 Typical usage::
 
@@ -15,7 +17,9 @@ Typical usage::
     
     >>> 
 
-To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, example for json::
+To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, 
+
+example for json::
 
     >>> mySerializedData = lambdaJSON.serialize(myComplexData, sort_keys = True)
     >>> myComplexData  == lambdaJSON.deserialize(mySerializedData, object_hook = my_hook)
@@ -31,7 +35,9 @@ It can be done for ujson too. You can also serialize python functions::
     'lambdaJSON Rocks!'
     >>>
 
-Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the function::
+Changed int 0.2.4, for function deserialization you must pass a function which returns the list of 
+
+globals for the function::
 
     >>> import lambdaJSON
     >>> y = 10
@@ -46,7 +52,13 @@ Changed int 0.2.4, for function deserialization you must pass a function which r
     15
     >>>
 
-If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
+If no globs passed to function, the globs will be just the __builtins__ module. Note that passing 
+
+globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals 
+
+from where the deserialization function is called, just use globs = (lambda: globals()), else 
+
+implement your own function. You can do some nice hacks too::
 
     >>> z = 10
     >>> def g():
@@ -66,7 +78,9 @@ If no globs passed to function, the globs will be just the __builtins__ module. 
 
 isn't it cool?? 
 
-After the support for all types are added, I'm planning to release a query friendly version of this library, that will be in version 0.3.0.
+After the support for all types are added, I'm planning to release a query friendly version of this 
+
+library, that will be in version 0.3.0.
 
 Currently Supported Types
 =========================
@@ -74,7 +88,7 @@ Currently Supported Types
 This types are covered in this version:
 
 1. Functions
-2. Bytes
+2. Bytes and Bytearrays
 3. Tuples
 4. Complex
 5. Range
@@ -85,7 +99,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Fixed a problem where objects in tuples didn't truely serialized.
+Added support for bytearray.
 
 Download
 ========
