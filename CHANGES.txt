@@ -1,3 +1,9 @@
+v0.2.10, September 3 2013
+-- Better code for function freezing.
+
+v0.2.9, September 3 2013
+-- Fixed some compatibility issues.
+
 v0.2.8, September 3 2013
 -- Added support for bytearray.
 
