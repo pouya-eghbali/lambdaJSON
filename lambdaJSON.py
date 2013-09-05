@@ -3,6 +3,7 @@ except: import json; __json__ = 'json'
 try: from ast import literal_eval as eval
 except: pass
 from lambdaJSON.functions import defreezef, freezef
+from __main__ import __builtins__
 
 __version__ = '0.2.11'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
