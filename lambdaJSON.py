@@ -1,8 +1,11 @@
-try: import ujson as json
-except: import json
+try: import ujson as json; __json__ = 'ujson'
+except: import json; __json__ = 'json'
 try: from ast import literal_eval as eval
 except: pass
 from lambdaJSON.functions import defreezef, freezef
+
+__version__ = '0.2.11'
+__author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
                         and    (bool, int, float, complex, long))
