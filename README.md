@@ -1,7 +1,9 @@
 ===========
 lambdaJSON
 ===========
-Serialize python standard types (function, tuple, complex, set, frozenset, range, bytearray, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
+Serialize python standard types (function, tuple, complex, set, frozenset, range, bytearray, bytes, 
+
+dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects with json.
 Typical usage::
 
@@ -76,6 +78,10 @@ implement your own function. You can do some nice hacks too::
 
 isn't it cool?? 
 
+To check version, simply use lambdaJSON.__version__, or if you want to know which json lib is in use, 
+
+try lambdaJSON.__json__
+
 After the support for all types are added, I'm planning to release a query friendly version of this 
 
 library, that will be in version 0.3.0.
@@ -97,7 +103,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Better code for function freezing.
+Added json lib and version identifiers.
 
 Download
 ========
