@@ -1,5 +1,6 @@
 v0.2.11, September 6 2013
 -- Added json lib and version identifiers.
+-- Fixed the __builtins__ issue.
 
 v0.2.10, September 3 2013
 -- Better code for function freezing.
