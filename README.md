@@ -104,6 +104,7 @@ Changes from previous
 =====================
 
 Added json lib and version identifiers.
+Fixed the __builtins__ issue.
 
 Download
 ========
