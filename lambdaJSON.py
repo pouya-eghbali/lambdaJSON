@@ -5,7 +5,7 @@ except: pass
 from lambdaJSON.functions import defreezef, freezef
 from __main__ import __builtins__
 
-__version__ = '0.2.11'
+__version__ = '0.2.12'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
@@ -26,6 +26,9 @@ flatten = lambda obj:          ((hasattr(__builtins__, 'bytes')
                         or     (hasattr(__builtins__, 'bytearray')
                         and     isinstance(obj, bytearray))
                         and    'bytearray://'+str([i for i in obj])
+                        or     (hasattr(__builtins__, 'memoryview')
+                        and     isinstance(obj, memoryview))
+                        and    'memoryview://'+str([i for i in obj])
                         or     isinstance(obj, complex) 
                         and    'complex://'+str(obj)
                         or     isinstance(obj, type(lambda: None)) 
@@ -58,6 +61,8 @@ restore = lambda obj, globs:\
                         and    range(*eval(x[8:]))
                         or     x.startswith('bytearray://') 
                         and    bytearray(eval(x[12:]))
+                        or     x.startswith('memoryview://') 
+                        and    memoryview(bytearray(eval(x[13:])))
                         or     x.startswith('complex://')
                         and    complex(x[10:])
                         or     x.startswith('function://')
