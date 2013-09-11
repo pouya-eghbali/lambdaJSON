@@ -1,3 +1,6 @@
+v0.2.12, September 11 2013
+-- Added support for memoryview.
+
 v0.2.11, September 6 2013
 -- Added json lib and version identifiers.
 -- Fixed the __builtins__ issue.
