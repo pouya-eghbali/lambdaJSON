@@ -1,11 +1,5 @@
-
-.. image:: https://pypip.in/v/lambdaJSON/badge.png
-    :target: https://pypi.python.org/pypi/lambdaJSON/
-    :alt: Latest PyPI version
-
-.. image:: https://pypip.in/d/lambdaJSON/badge.png
-    :target: https://pypi.python.org/pypi/lambdaJSON/
-    :alt: Number of PyPI downloads
+[![PyPi version](https://pypip.in/v/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
+[![PyPi downloads](https://pypip.in/d/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
 
 ===========
 lambdaJSON
