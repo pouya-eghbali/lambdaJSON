@@ -1,6 +1,4 @@
 try: import ujson as json; __json__ = 'ujson'
-except: import demjson as json; __json__ = 'demjson'
-try: json
 except: import simplejson as json; __json__ = 'simplejson'
 try: json
 except: import json; __json__ = 'json'
