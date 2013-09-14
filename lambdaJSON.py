@@ -1,11 +1,15 @@
 try: import ujson as json; __json__ = 'ujson'
+except: import demjson as json; __json__ = 'demjson'
+try: json
+except: import simplejson as json; __json__ = 'simplejson'
+try: json
 except: import json; __json__ = 'json'
 try: from ast import literal_eval as eval
 except: pass
 from lambdaJSON.functions import defreezef, freezef
 from __main__ import __builtins__
 
-__version__ = '0.2.12'
+__version__ = '0.2.13'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
@@ -17,7 +21,9 @@ flatten = lambda obj:          ((hasattr(__builtins__, 'bytes')
                         and    (b'bytes://'+obj).decode('utf8') 
                         or     isinstance(obj, tuple) 
                         and    'tuple://'+str(tuple([flatten(i) for i in obj]))
-                        or     isinstance(obj, set) 
+                        or     isinstance(obj, BaseException)
+                        and    'exception://'+str([str(i) for i in obj.__reduce__()])
+                        or     isinstance(obj, set)
                         and    'set://'+str([flatten(i) for i in obj])
                         or     isinstance(obj, frozenset) 
                         and    'frozenset://'+str([flatten(i) for i in obj])
@@ -57,6 +63,9 @@ restore = lambda obj, globs:\
                         and    frozenset([restore(i,globs) for i in eval(x[12:])])
                         or     x.startswith('bool://') 
                         and    eval(x[7:])
+                        or     x.startswith('exception://') 
+                        and    (lambda x = eval(x[12:]):
+                                __builtins__.eval('%s(*%s)'%(x[0][8:-2],x[1])))()
                         or     x.startswith('range://') 
                         and    range(*eval(x[8:]))
                         or     x.startswith('bytearray://') 
