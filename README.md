@@ -1,3 +1,12 @@
+
+.. image:: https://pypip.in/v/lambdaJSON/badge.png
+    :target: https://pypi.python.org/pypi/lambdaJSON/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/lambdaJSON/badge.png
+    :target: https://pypi.python.org/pypi/lambdaJSON/
+    :alt: Number of PyPI downloads
+
 ===========
 lambdaJSON
 ===========
