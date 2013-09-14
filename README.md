@@ -1,9 +1,7 @@
-[![PyPi version](https://pypip.in/v/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
-[![PyPi downloads](https://pypip.in/d/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
-
-===========
 lambdaJSON
 ===========
+[![PyPi version](https://pypip.in/v/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
+[![PyPi downloads](https://pypip.in/d/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
 Serialize python standard types (function, tuple, complex, memoryview, exceptions, set, frozenset, range, 
 
 bytearray, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
