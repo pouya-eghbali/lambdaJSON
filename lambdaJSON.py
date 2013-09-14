@@ -7,7 +7,7 @@ except: pass
 from lambdaJSON.functions import defreezef, freezef
 from __main__ import __builtins__
 
-__version__ = '0.2.13'
+__version__ = '0.2.14'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
