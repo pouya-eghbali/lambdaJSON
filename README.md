@@ -2,7 +2,8 @@ lambdaJSON
 ===========
 [![PyPi version](https://pypip.in/v/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
 [![PyPi downloads](https://pypip.in/d/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
-Serialize python standard types (function, tuple, complex, memoryview, exceptions, set, frozenset, range, bytearray, bytes, dict with number keys, byte keys or tuple keys, and etc) with json.
+
+Serialize python standard types (function, tuple, class, memoryview, set, frozenset, exceptions, complex, range, bytes, bytearray, dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects with json.
 Typical usage::
 
@@ -16,9 +17,7 @@ Typical usage::
     
     >>> 
 
-To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, example for 
-
-json::
+To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, example for json::
 
     >>> mySerializedData = lambdaJSON.serialize(myComplexData, sort_keys = True)
     >>> myComplexData  == lambdaJSON.deserialize(mySerializedData, object_hook = my_hook)
@@ -34,9 +33,7 @@ It can be done for ujson too. You can also serialize python functions::
     'lambdaJSON Rocks!'
     >>>
 
-Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the 
-
-function::
+Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the function::
 
     >>> import lambdaJSON
     >>> y = 10
@@ -51,13 +48,7 @@ function::
     15
     >>>
 
-If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will 
-
-pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the 
-
-deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You 
-
-can do some nice hacks too::
+If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
 
     >>> z = 10
     >>> def g():
@@ -75,12 +66,10 @@ can do some nice hacks too::
     18
     >>>
 
-isn't it cool?? 
+You can serialize Builtin Exceptions like this::
 
-You can serialize Builtin Exceptions like this:
-
-    >>> a = serialize(OSError('FILE NOT FOUND'))
-    >>> b = deserialize(a)
+    >>> a = lambdaJSON.serialize(OSError('FILE NOT FOUND'))
+    >>> b = lambdaJSON.deserialize(a)
     >>> raise b
     Traceback (most recent call last):
       File "<pyshell#3>", line 1, in <module>
@@ -88,20 +77,26 @@ You can serialize Builtin Exceptions like this:
     OSError: FILE NOT FOUND
     >>>
 
-To check version, simply use lambdaJSON.__version__, or if you want to know which json lib is in use, try 
+introduced in version 0.2.15, you can now serialize basic classes and types. The support is basic, but I'm planning to develop the class serialization support in the next subversion. to deserialize a class, you must pass the globals function too, if you do not pass the globals, only __builtins__ will be passed to the class functions. this is an example to do it::
 
-lambdaJSON.__json__
+    >>> class test(object):
+            def __init__(self):
+                self.var = 'lambdaJSON'
+    
+    >>> serializedClass = lambdaJSON.serialize(test)
+    >>> newClass = lambdaJSON.deserialize(serializedClass, globs = lambda: globals())
+    >>> newClass().var
+    'lambdaJSON'
+    >>> 
 
-After the support for all types are added, I'm planning to release a query friendly version of this library, that 
+To check version, simply use lambdaJSON.__version__, or if you want to know which json lib is in use, try lambdaJSON.__json__
 
-will be in version 0.3.0.
+After the support for all types are added, I'm planning to release a query friendly version of this library, that will be in version 0.3.0.
 
 The json lib
 ============
 
-LambdaJSON first tries to import ujson, if it fails it will import simplejson, and if that fails too, the json lib 
-
-will be imported. you can check which json lib is in use with lambdaJSON.__json__ variable.
+LambdaJSON first tries to import ujson, if it fails it will import simplejson, and if that fails too, the json lib will be imported. you can check which json lib is in use with lambdaJSON.__json__ variable.
 
 Currently Supported Types
 =========================
@@ -110,19 +105,20 @@ This types are covered in this version:
 
 1. Functions
 2. Bytes and Bytearrays
-3. Builtin Exceptions
-4. Tuples
-5. Complex
-6. Range
-7. Set and Frozenset
-8. Memoryview
-9. Dicts (With Number, Tuple, String, Bool and Byte keys)
-10. other json supported types
+3. Classes (basic support)
+4. Builtin Exceptions
+5. Tuples
+6. Complex
+7. Range
+8. Set and Frozenset
+9. Memoryview
+10. Dicts (With Number, Tuple, String, Bool and Byte keys)
+11. other json supported types
 
 Changes from previous
 =====================
 
-Added support for Builtin Exceptions.
+Added basic support for classes.
 
 Download
 ========
