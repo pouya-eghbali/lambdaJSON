@@ -7,7 +7,7 @@ except: pass
 from lambdaJSON.functions import defreezef, freezef
 from __main__ import __builtins__
 
-__version__ = '0.2.14'
+__version__ = '0.2.15'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
@@ -35,6 +35,10 @@ flatten = lambda obj:          ((hasattr(__builtins__, 'bytes')
                         and    'memoryview://'+str([i for i in obj])
                         or     isinstance(obj, complex) 
                         and    'complex://'+str(obj)
+                        or     isinstance(obj, type) 
+                        and    'type://'+str([obj.__name__,str(obj.__bases__),
+                               flatten({f:obj.__dict__[f] for f in obj.__dict__
+                        if     callable(obj.__dict__[f])})])
                         or     isinstance(obj, type(lambda: None)) 
                         and    'function://'+str(freezef(obj)) 
                         or     isinstance(obj, list) 
@@ -72,6 +76,12 @@ restore = lambda obj, globs:\
                         and    memoryview(bytearray(eval(x[13:])))
                         or     x.startswith('complex://')
                         and    complex(x[10:])
+                        or     x.startswith('type://')
+                        and    (lambda x = eval(x[7:]):type(x[0],tuple((globs()[i])
+                        if     i in globs() else __builtins__.eval(i)
+                        for    i in [(i[9:] if i.startswith('__main__.') else i)
+                        for    i in [(i[8:-2] if i.endswith('>') else i[8:-3])
+                        for    i in x[1][1:-1].split(', ')]]),restore(x[2],globs)))()
                         or     x.startswith('function://')
                         and    defreezef(eval(x[11:]), globs = globs)
                         or     x.startswith('tuple://') 
