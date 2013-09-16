@@ -14,7 +14,8 @@ freezef = lambda function:         (lambda code = (hasattr(function, '__code__')
                                    'co_filename': code.co_filename,
                                    'co_name': code.co_name,
                                    'co_firstlineno': code.co_firstlineno,
-                                   'co_lnotab': code.co_lnotab})()
+                                   'co_lnotab': code.co_lnotab,
+                                   'defaults':function.__defaults__ or []})()
 
 defreezef = lambda co_dict, globs:\
                                    eval("""(lambda lambdaJSON_globs = globs,
@@ -34,8 +35,11 @@ defreezef = lambda co_dict, globs:\
                                    co_dict['co_firstlineno'],
                                    co_dict['co_lnotab']),
                                    lambdaJSON_globs(),'')(%s))))()"""%
-                                   (','.join(['%s'%a for a
-                                   in co_dict['co_varnames']]),
+                                   (','.join(['%s'%a+('=%s'%co_dict['defaults']
+                                   [co_dict['co_varnames'].index(a)-len(co_dict['co_varnames'])]
+                                   if len(co_dict['defaults']) >= abs(co_dict['co_varnames'].index(a)
+                                   -len(co_dict['co_varnames']))  else '')
+                                   for a in co_dict['co_varnames']]),
                                    (co_dict['co_kwonlyargcount'] is False and ' '
                                    or "co_dict['co_kwonlyargcount'],"),
                                    ','.join(['%s'%a for a
