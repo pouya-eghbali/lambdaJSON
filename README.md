@@ -118,7 +118,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Added basic support for classes.
+Functions default arg values are now serialized.
 
 Download
 ========
