@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Changes &mdash; lambdaJSON 0.2.16 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.16',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="lambdaJSON 0.2.16 documentation" href="index.html" />
+    <link rel="prev" title="Notes" href="notes.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="notes.html" title="Notes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">lambdaJSON 0.2.16 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="changes">
+<h1>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h1>
+<p>v0.2.16, September 16 2013
+&#8211; Functions default arg values are now serialized.</p>
+<p>v0.2.15, September 15 2013
+&#8211; Added basic support for classes.</p>
+<p>v0.2.14, September 14 2013
+&#8211; Added support for Builtin Exceptions.</p>
+<p>v0.2.13, September 12 2013
+&#8211; Added support for simplejson.</p>
+<p>v0.2.12, September 11 2013
+&#8211; Added support for memoryview.</p>
+<p>v0.2.11, September 6 2013
+&#8211; Added json lib and version identifiers.
+&#8211; Fixed the __builtins__ issue.</p>
+<p>v0.2.10, September 3 2013
+&#8211; Better code for function freezing.</p>
+<p>v0.2.9, September 3 2013
+&#8211; Fixed some compatibility issues.</p>
+<p>v0.2.8, September 3 2013
+&#8211; Added support for bytearray.</p>
+<p>v0.2.7, September 2 2013
+&#8211; Fixed a problem where objects in tuples didn&#8217;t truly serialized.</p>
+<p>v0.2.6, September 2 2013
+&#8211; Fixed a compatibility issue.</p>
+<p>v0.2.5, September 1 2013
+&#8211; Added support for set and frozenset.</p>
+<p>v0.2.4, September 1 2013
+&#8211; globs for function deserialization now must be a function.</p>
+<p>v0.2.3, September 1 2013
+&#8211; Added Range support.</p>
+<p>v0.2.2, August 31 2013
+&#8211; Ability to pass globals to deserialized Functions.
+&#8211; Fixed a problem with globs exception on lists and dicts.</p>
+<p>v0.2.1, August 31 2013
+&#8211; Added __builtins__ to deserialized Functions.</p>
+<p>v0.2.0, August 31 2013
+&#8211; Added ability to serialize functions.</p>
+<p>v0.1.10, August 30 2013
+&#8211; Fixed a problem with <a href="#id1"><span class="problematic" id="id2">*</span></a>args and <a href="#id3"><span class="problematic" id="id4">**</span></a>kwargs</p>
+<p>v0.1.9, August 30 2013
+&#8211; Moved &#8216;long&#8217; type existence determination outside of function to increase speed.</p>
+<p>v0.1.8, August 30 2013
+&#8211; Ability to pass args and kwargs to the json encoder/decoder.</p>
+<p>v0.1.7, August 30 2013
+&#8211; Fixed a problem came from vars(__builtins__)</p>
+<p>v0.1.6, August 30 2013
+&#8211; Added support for a faster json lib: ujson.</p>
+<p>v0.1.5, August 29 2013
+&#8211; Security fix. Using ast.literal_eval as eval.</p>
+<p>v0.1.4, August 29 2013
+&#8211; Support for py2 long with no hacks!</p>
+<p>v0.1.3, August 29 2013
+&#8211; Added support for Complex numbers.</p>
+<p>v0.1.2, August 29 2013
+&#8211; Added support for bool as dict key.</p>
+<p>v0.1.1, August 28 2013
+&#8211; Added support for python 2 long type.</p>
+<p>v0.1, August 28 2013
+&#8211; Initial release.</p>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="notes.html"
+                        title="previous chapter">Notes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/changes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="notes.html" title="Notes"
+             >previous</a> |</li>
+        <li><a href="index.html">lambdaJSON 0.2.16 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Pooya Eghbali.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

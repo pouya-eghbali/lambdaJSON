@@ -1,0 +1,88 @@
+Changes
+=======
+
+v0.2.16, September 16 2013
+-- Functions default arg values are now serialized.
+
+v0.2.15, September 15 2013
+-- Added basic support for classes.
+
+v0.2.14, September 14 2013
+-- Added support for Builtin Exceptions.
+
+v0.2.13, September 12 2013
+-- Added support for simplejson.
+
+v0.2.12, September 11 2013
+-- Added support for memoryview.
+
+v0.2.11, September 6 2013
+-- Added json lib and version identifiers.
+-- Fixed the __builtins__ issue.
+
+v0.2.10, September 3 2013
+-- Better code for function freezing.
+
+v0.2.9, September 3 2013
+-- Fixed some compatibility issues.
+
+v0.2.8, September 3 2013
+-- Added support for bytearray.
+
+v0.2.7, September 2 2013
+-- Fixed a problem where objects in tuples didn't truly serialized.
+
+v0.2.6, September 2 2013
+-- Fixed a compatibility issue.
+
+v0.2.5, September 1 2013
+-- Added support for set and frozenset.
+
+v0.2.4, September 1 2013
+-- globs for function deserialization now must be a function.
+
+v0.2.3, September 1 2013
+-- Added Range support.
+
+v0.2.2, August 31 2013
+-- Ability to pass globals to deserialized Functions.
+-- Fixed a problem with globs exception on lists and dicts.
+
+v0.2.1, August 31 2013
+-- Added __builtins__ to deserialized Functions.
+
+v0.2.0, August 31 2013
+-- Added ability to serialize functions.
+
+v0.1.10, August 30 2013
+-- Fixed a problem with *args and **kwargs
+
+v0.1.9, August 30 2013
+-- Moved 'long' type existence determination outside of function to increase speed.
+
+v0.1.8, August 30 2013
+-- Ability to pass args and kwargs to the json encoder/decoder.
+
+v0.1.7, August 30 2013
+-- Fixed a problem came from vars(__builtins__)
+
+v0.1.6, August 30 2013
+-- Added support for a faster json lib: ujson.
+
+v0.1.5, August 29 2013
+-- Security fix. Using ast.literal_eval as eval.
+
+v0.1.4, August 29 2013
+-- Support for py2 long with no hacks!
+
+v0.1.3, August 29 2013
+-- Added support for Complex numbers.
+
+v0.1.2, August 29 2013
+-- Added support for bool as dict key.
+
+v0.1.1, August 28 2013
+-- Added support for python 2 long type.
+
+v0.1, August 28 2013
+-- Initial release.

@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Usage &mdash; lambdaJSON 0.2.16 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.16',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="lambdaJSON 0.2.16 documentation" href="index.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">lambdaJSON 0.2.16 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>Serialize python standard types (function, tuple, class, memoryview, set, frozenset, exceptions, complex, range, bytes, bytearray, dict with number keys, byte keys or tuple keys, and etc) with json.
+lambdaJSON lets you serialize python standard library objects with json.</p>
+<div class="section" id="typical-usage">
+<h2>Typical usage<a class="headerlink" href="#typical-usage" title="Permalink to this headline">¶</a></h2>
+<p>I&#8217;ll show you some basic usage of the lambdaJSON lib. for more advanced examples please visit the examples section.</p>
+<div class="section" id="serialize-complex-dict">
+<h3>Serialize Complex dict<a class="headerlink" href="#serialize-complex-dict" title="Permalink to this headline">¶</a></h3>
+<p>You can serialize any dicts with lambdaJSON supported keys (and also hashable). this includes dictionaries with byte keys, tuple keys and etc:</p>
+<div class="highlight-python"><pre>#!/usr/bin/env python
+
+&gt;&gt;&gt; import lambdaJSON
+&gt;&gt;&gt; myComplexData = {True: (3-5j), (3+5j): b&#x27;json&#x27;, (1, 2, 3): {b&#x27;lambda&#x27;: [1, 2, 3, (3, 4, 5)]}}
+&gt;&gt;&gt; mySerializedData = lambdaJSON.serialize(myComplexData)
+&gt;&gt;&gt; myComplexData  == lambdaJSON.deserialize(mySerializedData)
+True
+
+&gt;&gt;&gt;</pre>
+</div>
+</div>
+<div class="section" id="passing-values-to-json-functions">
+<h3>Passing values to json functions<a class="headerlink" href="#passing-values-to-json-functions" title="Permalink to this headline">¶</a></h3>
+<p>To pass args and kwargs to the encoder/decoder simply pass them to the serialize/deserialize function, example for json:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedData</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">myComplexData</span><span class="p">,</span> <span class="n">sort_keys</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myComplexData</span>  <span class="o">==</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedData</span><span class="p">,</span> <span class="n">object_hook</span> <span class="o">=</span> <span class="n">my_hook</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It can be done for ujson too.</p>
+</div>
+<div class="section" id="serializing-python-functions">
+<h3>Serializing python functions<a class="headerlink" href="#serializing-python-functions" title="Permalink to this headline">¶</a></h3>
+<p>You can also serialize python functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lambdaJSON</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">():</span> <span class="k">print</span><span class="p">(</span><span class="s">&#39;lambdaJSON Rocks!&#39;</span><span class="p">)</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">()</span>
+<span class="go">&#39;lambdaJSON Rocks!&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lambdaJSON</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">globals</span><span class="p">()))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">50</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="go">15</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+<p>If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">g</span><span class="p">():</span>
+<span class="go">        global z</span>
+<span class="go">        z += 1</span>
+<span class="go">        return {&#39;z&#39;:z}</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">z</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">18</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="serializing-builtin-exceptions">
+<h3>Serializing builtin exceptions<a class="headerlink" href="#serializing-builtin-exceptions" title="Permalink to this headline">¶</a></h3>
+<p>You can serialize Builtin Exceptions like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="ne">OSError</span><span class="p">(</span><span class="s">&#39;FILE NOT FOUND&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">raise</span> <span class="n">b</span>
+<span class="gt">Traceback (most recent call last):</span>
+  File <span class="nb">&quot;&lt;pyshell#3&gt;&quot;</span>, line <span class="m">1</span>, in <span class="n">&lt;module&gt;</span>
+    <span class="k">raise</span> <span class="n">b</span>
+<span class="gr">OSError</span>: <span class="n">FILE NOT FOUND</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="serializing-python-classes">
+<h3>Serializing python classes<a class="headerlink" href="#serializing-python-classes" title="Permalink to this headline">¶</a></h3>
+<p>introduced in version 0.2.15, you can now serialize basic classes and types. The support is basic, but I&#8217;m planning to develop the class serialization support in the next subversion. to deserialize a class, you must pass the globals function too, if you do not pass the globals, only __builtins__ will be passed to the class functions. this is an example to do it:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">test</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="go">        def __init__(self):</span>
+<span class="go">            self.var = &#39;lambdaJSON&#39;</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">serializedClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">serializedClass</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">globals</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span><span class="p">()</span><span class="o">.</span><span class="n">var</span>
+<span class="go">&#39;lambdaJSON&#39;</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="find-version">
+<h2>Find version<a class="headerlink" href="#find-version" title="Permalink to this headline">¶</a></h2>
+<p>To check version, simply use lambdaJSON.__version__, or if you want to know which json lib is in use, try lambdaJSON.__json__</p>
+</div>
+<div class="section" id="json-lib-in-use">
+<h2>Json lib in use<a class="headerlink" href="#json-lib-in-use" title="Permalink to this headline">¶</a></h2>
+<p>LambdaJSON first tries to import ujson, if it fails it will import simplejson, and if that fails too, the json lib will be imported. you can check which json lib is in use with lambdaJSON.__json__ variable.</p>
+</div>
+<div class="section" id="currently-supported-types">
+<h2>Currently Supported Types<a class="headerlink" href="#currently-supported-types" title="Permalink to this headline">¶</a></h2>
+<p>This types are covered in this version:</p>
+<ol class="arabic simple">
+<li>Functions</li>
+<li>Bytes and Bytearrays</li>
+<li>Classes (basic support)</li>
+<li>Builtin Exceptions</li>
+<li>Tuples</li>
+<li>Complex</li>
+<li>Range</li>
+<li>Set and Frozenset</li>
+<li>Memoryview</li>
+<li>Dicts (With Number, Tuple, String, Bool and Byte keys)</li>
+<li>other json supported types</li>
+</ol>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Usage</a><ul>
+<li><a class="reference internal" href="#typical-usage">Typical usage</a><ul>
+<li><a class="reference internal" href="#serialize-complex-dict">Serialize Complex dict</a></li>
+<li><a class="reference internal" href="#passing-values-to-json-functions">Passing values to json functions</a></li>
+<li><a class="reference internal" href="#serializing-python-functions">Serializing python functions</a></li>
+<li><a class="reference internal" href="#serializing-builtin-exceptions">Serializing builtin exceptions</a></li>
+<li><a class="reference internal" href="#serializing-python-classes">Serializing python classes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#find-version">Find version</a></li>
+<li><a class="reference internal" href="#json-lib-in-use">Json lib in use</a></li>
+<li><a class="reference internal" href="#currently-supported-types">Currently Supported Types</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/usage.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >previous</a> |</li>
+        <li><a href="index.html">lambdaJSON 0.2.16 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Pooya Eghbali.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+lambdaJSON lib
+==============
+
+This section will provide a brief explaination to all parts and functions included in lambdaJSON lib.
+
+__init__.py
+___________
+
+Everything inside __init__.py!
+
+__author__
+----------
+
+if used, this value returns name of the author of the lambdaJSON lib, 'Pooya Eghbali'.
+
+__version__
+-----------
+
+if used, this value returns the version of the lambdaJSON lib, eg: 2.0.16.
+
+__json__
+--------
+
+if used, this value returns the name of the json lib in use, eg: 'ujson'. You can use this to find the json lib if you want to pass for example ujson specific arguments to the deserialization function.
+
+__builtins__
+------------
+
+this is imported from __main__. the __builtins__ included in the top level module.
+
+functions.py
+____________

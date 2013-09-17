@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Examples &mdash; lambdaJSON 0.2.16 documentation</title>
+    
+    <link rel="stylesheet" href="_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.2.16',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="lambdaJSON 0.2.16 documentation" href="index.html" />
+    <link rel="next" title="Quick Reference" href="refs.html" />
+    <link rel="prev" title="Usage" href="usage.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="refs.html" title="Quick Reference"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">lambdaJSON 0.2.16 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="examples">
+<h1>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h1>
+<p>Here you will find some more advanced examples of using the lambdaJSON lib.</p>
+<div class="section" id="serialize-an-inherited-class">
+<h2>Serialize an inherited class<a class="headerlink" href="#serialize-an-inherited-class" title="Permalink to this headline">¶</a></h2>
+<p>It is easy to serialize a class if it is just inherited from builtin types, but serializing classes that are inherited from third party classes is a little tricky. see the examples to find out how to serialize these classes with lambdaJSON.</p>
+<div class="section" id="serialize-qwidget-inheritance">
+<h3>Serialize QWidget inheritance<a class="headerlink" href="#serialize-qwidget-inheritance" title="Permalink to this headline">¶</a></h3>
+<p>When you are deserializing a class, lambdaJSON first searches for bases of the class inside the globals, if it did not find the base class it will try builtins, if not found an exception will be raised.</p>
+<p>if you serialize a class that is inherited by a QtGui.QWidget, you will find out that the base class for this class is &lt;class &#8216;PySide.QtGui.QWidget&#8217;&gt;, so in order to deserialize this class, you need to have &#8216;PySide.QtGui.QWidget&#8217; in your globals dict (or just the globals you pass to deserialization function).</p>
+<p>Simply importing QtGui from PySide will not work, and i will not create a function to search for the base class inside the globals because of security issues (idk if i change my mind or not). here is how you can serialize these classes:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lambdaJSON</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">PySide</span> <span class="kn">import</span> <span class="n">QtGui</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">myWidget</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">):</span>
+<span class="go">        pass</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">serializedClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">myWidget</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">serializedClass</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;PySide.QtGui.QWidget&#39;</span><span class="p">:</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="count-execution-of-deserialized-function">
+<h3>Count Execution of deserialized function<a class="headerlink" href="#count-execution-of-deserialized-function" title="Permalink to this headline">¶</a></h3>
+<p>I could develop lambdaJSON in a way that you just could pass a dictionary with references as globals, but i decided to accept functions instead of a dict, <em>to add more controling power</em>. with this, you can do some nice hacks, and one of them is this. The example source is:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lambdaJSON</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">g</span><span class="p">():</span>
+<span class="go">        global times</span>
+<span class="go">        times += 1</span>
+<span class="go">        print(&#39;function executed %s time%s&#39;%(times, &#39;&#39; if times == 1 else &#39;s&#39;))</span>
+<span class="go">        return globals()</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span>
+
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">function executed 1 time</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">function executed 2 times</span>
+<span class="go">2</span>
+<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Examples</a><ul>
+<li><a class="reference internal" href="#serialize-an-inherited-class">Serialize an inherited class</a><ul>
+<li><a class="reference internal" href="#serialize-qwidget-inheritance">Serialize QWidget inheritance</a></li>
+<li><a class="reference internal" href="#count-execution-of-deserialized-function">Count Execution of deserialized function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="previous chapter">Usage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="refs.html"
+                        title="next chapter">Quick Reference</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/examples.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="refs.html" title="Quick Reference"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="usage.html" title="Usage"
+             >previous</a> |</li>
+        <li><a href="index.html">lambdaJSON 0.2.16 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Pooya Eghbali.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2b1.
+    </div>
+  </body>
+</html>
