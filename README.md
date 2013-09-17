@@ -118,7 +118,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Functions default arg values are now serialized.
+Fixed a problem with imports.
 
 Download
 ========
