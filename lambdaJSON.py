@@ -1,5 +1,9 @@
 try: import ujson as json; __json__ = 'ujson'
-except: import simplejson as json; __json__ = 'simplejson'
+except: pass
+try: json
+except:
+    try: import simplejson as json; __json__ = 'simplejson'
+    except: pass
 try: json
 except: import json; __json__ = 'json'
 try: from ast import literal_eval as eval
@@ -7,7 +11,7 @@ except: pass
 from lambdaJSON.functions import defreezef, freezef
 from __main__ import __builtins__
 
-__version__ = '0.2.16'
+__version__ = '0.2.17'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
