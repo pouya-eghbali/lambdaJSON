@@ -36,11 +36,13 @@ defreezef = lambda co_dict, globs:\
                                    co_dict['co_lnotab']),
                                    lambdaJSON_globs(),'')(%s))))()"""%
                                    (','.join(['%s'%a+('=%s'%co_dict['defaults']
-                                   [co_dict['co_varnames'].index(a)-len(co_dict['co_varnames'])]
-                                   if len(co_dict['defaults']) >= abs(co_dict['co_varnames'].index(a)
-                                   -len(co_dict['co_varnames']))  else '')
-                                   for a in co_dict['co_varnames']]),
+                                   [co_dict['co_varnames'][:co_dict['co_argcount']].index(a)
+                                   -len(co_dict['co_varnames'][:co_dict['co_argcount']])]
+                                   if len(co_dict['defaults']) >= abs(co_dict['co_varnames']
+                                   [:co_dict['co_argcount']].index(a)-len(co_dict['co_varnames']
+                                   [:co_dict['co_argcount']]))  else '')
+                                   for a in co_dict['co_varnames'][:co_dict['co_argcount']]]),
                                    (co_dict['co_kwonlyargcount'] is False and ' '
                                    or "co_dict['co_kwonlyargcount'],"),
                                    ','.join(['%s'%a for a
-                                   in co_dict['co_varnames']])))
+                                   in co_dict['co_varnames'][:co_dict['co_argcount']]])))
