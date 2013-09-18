@@ -1,5 +1,5 @@
 v0.2.17, September 18 2013
--- Fixed a problem with imports.
+-- Fixed a problem with function freezing.
 
 v0.2.16, September 16 2013
 -- Functions default arg values are now serialized.
