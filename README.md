@@ -118,7 +118,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Fixed a problem with imports.
+Fixed a problem with function freezing.
 
 Download
 ========
