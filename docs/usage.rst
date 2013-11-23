@@ -46,14 +46,15 @@ You can also serialize python functions::
     'lambdaJSON Rocks!'
     >>>
 
-Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the function::
+You should pass a function that returns list of globals to while you are creating a lambdaJSON instance, if not (lambda: globals()) will be used::
 
-    >>> import lambdaJSON
+    >>> from lambdaJSON import lambdaJSON
+	>>> lj = lambdaJSON(globs = (lambda: globals()))
     >>> y = 10
     >>> def f(x): return x*y
     
-    >>> mySerializedFunction = lambdaJSON.serialize(f)
-    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction, globs = (lambda: globals()))
+    >>> mySerializedFunction = lj.dumps(f)
+    >>> myNewFunction  = lj.loads(mySerializedFunction)
     >>> myNewFunction(5)
     50
     >>> y = 3
@@ -61,7 +62,7 @@ Changed int 0.2.4, for function deserialization you must pass a function which r
     15
     >>>
 
-If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
+If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs local globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
 
     >>> z = 10
     >>> def g():
@@ -71,8 +72,10 @@ If no globs passed to function, the globs will be just the __builtins__ module. 
     
     >>> def f(x,y): return x*y+z
     
-    >>> mySerializedFunction = lambdaJSON.serialize(f)
-    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction, globs = g)
+	>>> from lambdaJSON import lambdaJSON
+	>>> lj = lambdaJSON(globs = g)
+    >>> mySerializedFunction = lj.dumps(f)
+    >>> myNewFunction  = lj.loads(mySerializedFunction)
     >>> myNewFunction(2,3)
     17
     >>> myNewFunction(2,3)
@@ -103,7 +106,7 @@ introduced in version 0.2.15, you can now serialize basic classes and types. The
                 self.var = 'lambdaJSON'
     
     >>> serializedClass = lambdaJSON.serialize(test)
-    >>> newClass = lambdaJSON.deserialize(serializedClass, globs = lambda: globals())
+    >>> newClass = lambdaJSON.deserialize(serializedClass)
     >>> newClass().var
     'lambdaJSON'
     >>> 

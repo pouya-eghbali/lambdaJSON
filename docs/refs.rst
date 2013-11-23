@@ -3,11 +3,6 @@ Quick Reference
 
 This section will provide a brief explaination to all parts and functions included in lambdaJSON lib.
 
-__init__.py
-___________
-
-Everything inside __init__.py!
-
 __author__
 ----------
 
@@ -33,12 +28,12 @@ eval
 
 actually this is the same as ast.literal_eval, used instead of builtins.eval to avoid security issues.
 
-flatten
+flatten #moved to lambdaJSON class
 -------
 
 lambdaJSON uses this function to flatten objects and convert them to a format that json understands. if you just want to flattend an object, use this function.
 
-restore
+restore #moved to lambdaJSON class
 -------
 
 this is the reverse if the flatten function. restores object from the flattened one.
@@ -90,3 +85,8 @@ defreezef
 ---------
 
 reverse function for freezef.
+
+instance
+---------
+
+is a instance of lambdaJSON class with local global.

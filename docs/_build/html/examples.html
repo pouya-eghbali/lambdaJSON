@@ -60,37 +60,36 @@
 <p>When you are deserializing a class, lambdaJSON first searches for bases of the class inside the globals, if it did not find the base class it will try builtins, if not found an exception will be raised.</p>
 <p>if you serialize a class that is inherited by a QtGui.QWidget, you will find out that the base class for this class is &lt;class &#8216;PySide.QtGui.QWidget&#8217;&gt;, so in order to deserialize this class, you need to have &#8216;PySide.QtGui.QWidget&#8217; in your globals dict (or just the globals you pass to deserialization function).</p>
 <p>Simply importing QtGui from PySide will not work, and i will not create a function to search for the base class inside the globals because of security issues (idk if i change my mind or not). here is how you can serialize these classes:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lambdaJSON</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lambdaJSON</span> <span class="kn">import</span> <span class="n">lambdaJSON</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">PySide</span> <span class="kn">import</span> <span class="n">QtGui</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">myWidget</span><span class="p">(</span><span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">):</span>
 <span class="go">        pass</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">serializedClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">myWidget</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">serializedClass</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;PySide.QtGui.QWidget&#39;</span><span class="p">:</span> <span class="n">QtGui</span><span class="o">.</span><span class="n">QWidget</span><span class="p">})</span>
+<span class="go">    &gt;&gt;&gt; lj = lambdaJSON(globs = lambda: {&#39;PySide.QtGui.QWidget&#39;: QtGui.QWidget})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">serializedClass</span> <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">myWidget</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span> <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">serializedClass</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="count-execution-of-deserialized-function">
 <h3>Count Execution of deserialized function<a class="headerlink" href="#count-execution-of-deserialized-function" title="Permalink to this headline">¶</a></h3>
 <p>I could develop lambdaJSON in a way that you just could pass a dictionary with references as globals, but i decided to accept functions instead of a dict, <em>to add more controling power</em>. with this, you can do some nice hacks, and one of them is this. The example source is:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lambdaJSON</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">times</span> <span class="o">=</span> <span class="mi">0</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">g</span><span class="p">():</span>
-<span class="go">        global times</span>
-<span class="go">        times += 1</span>
-<span class="go">        print(&#39;function executed %s time%s&#39;%(times, &#39;&#39; if times == 1 else &#39;s&#39;))</span>
-<span class="go">        return globals()</span>
+<span class="go">        global z</span>
+<span class="go">        z += 1</span>
+<span class="go">        return {&#39;z&#39;:z}</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">z</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="n">g</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="go">function executed 1 time</span>
-<span class="go">2</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-<span class="go">function executed 2 times</span>
-<span class="go">2</span>
+<span class="go">    &gt;&gt;&gt; from lambdaJSON import lambdaJSON</span>
+<span class="go">    &gt;&gt;&gt; lj = lambdaJSON(globs = g)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">17</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">18</span>
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>

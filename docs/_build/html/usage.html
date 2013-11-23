@@ -24,6 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="lambdaJSON 0.2.16 documentation" href="index.html" />
+    <link rel="next" title="Examples" href="examples.html" />
     <link rel="prev" title="Installation" href="install.html" /> 
   </head>
   <body>
@@ -33,6 +34,9 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="install.html" title="Installation"
              accesskey="P">previous</a> |</li>
@@ -88,13 +92,14 @@ True
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
-<p>Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the function:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">lambdaJSON</span>
+<p>You should pass a function that returns list of globals to while you are creating a lambdaJSON instance, if not (lambda: globals()) will be used:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">lambdaJSON</span> <span class="kn">import</span> <span class="n">lambdaJSON</span>
+<span class="go">    &gt;&gt;&gt; lj = lambdaJSON(globs = (lambda: globals()))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">globals</span><span class="p">()))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="go">50</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">y</span> <span class="o">=</span> <span class="mi">3</span>
@@ -103,7 +108,7 @@ True
 <span class="go">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
-<p>If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too:</p>
+<p>If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs local globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">z</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">g</span><span class="p">():</span>
 <span class="go">        global z</span>
@@ -112,8 +117,10 @@ True
 
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">+</span><span class="n">z</span>
 
-<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="n">g</span><span class="p">)</span>
+<span class="go">    &gt;&gt;&gt; from lambdaJSON import lambdaJSON</span>
+<span class="go">    &gt;&gt;&gt; lj = lambdaJSON(globs = g)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mySerializedFunction</span> <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span>  <span class="o">=</span> <span class="n">lj</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">mySerializedFunction</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">17</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">myNewFunction</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
@@ -144,7 +151,7 @@ True
 <span class="go">            self.var = &#39;lambdaJSON&#39;</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="n">serializedClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">serialize</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">serializedClass</span><span class="p">,</span> <span class="n">globs</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="nb">globals</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span> <span class="o">=</span> <span class="n">lambdaJSON</span><span class="o">.</span><span class="n">deserialize</span><span class="p">(</span><span class="n">serializedClass</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">newClass</span><span class="p">()</span><span class="o">.</span><span class="n">var</span>
 <span class="go">&#39;lambdaJSON&#39;</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -206,6 +213,9 @@ True
   <h4>Previous topic</h4>
   <p class="topless"><a href="install.html"
                         title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="examples.html"
+                        title="next chapter">Examples</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/usage.txt"
@@ -234,6 +244,9 @@ True
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              >index</a></li>
+        <li class="right" >
+          <a href="examples.html" title="Examples"
+             >next</a> |</li>
         <li class="right" >
           <a href="install.html" title="Installation"
              >previous</a> |</li>
