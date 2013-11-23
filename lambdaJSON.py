@@ -11,11 +11,7 @@ except: pass
 from lambdaJSON.functions import defreezef, freezef
 from __main__ import __builtins__
 
-<<<<<<< HEAD
 __version__ = '0.3.0'
-=======
-__version__ = '0.2.17'
->>>>>>> 12be9c48988d24677cf8e0d06a85058b3cb85d8a
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
