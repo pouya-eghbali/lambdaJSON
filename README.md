@@ -177,14 +177,10 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-<<<<<<< HEAD
 No more lambdas, more clean code.
 lambdaJSON is now a class.
 Now you can easily add Freeze and Defreeze methods.
 Changed Identifier format.
-=======
-Fixed a problem with function freezing.
->>>>>>> 12be9c48988d24677cf8e0d06a85058b3cb85d8a
 
 Download
 ========
