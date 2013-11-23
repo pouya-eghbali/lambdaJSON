@@ -1,3 +1,18 @@
+v0.2.19, November 23 2013
+-- No more lambdas, more clean code.
+-- lambdaJSON is now a class.
+-- Now you can easily add Freeze and Defreeze methods.
+-- Changed Identifier format.
+
+v0.2.19, September 24 2013
+-- Added dumps, loads.
+
+v0.2.18, September 18 2013
+-- Fixed a problem with function freezing.
+
+v0.2.17, September 18 2013
+-- Fixed a problem with imports.
+
 v0.2.16, September 16 2013
 -- Functions default arg values are now serialized.
 
