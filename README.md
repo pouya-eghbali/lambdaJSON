@@ -3,8 +3,29 @@ lambdaJSON
 [![PyPi version](https://pypip.in/v/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
 [![PyPi downloads](https://pypip.in/d/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
 
+
 Serialize python standard types (function, tuple, class, memoryview, set, frozenset, exceptions, complex, range, bytes, bytearray, dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects with json.
+
+
+V0.3.0 Changes
+==============
+Code is more clean, i used class and function definitions instead of lambda to improve readability.
+now, there is a lambdaJSON class, the freezer and defreezer class, you can have as many custom lambdaJSON instances you may need.
+Identifier method changed. previously i used "type://" identifier, this was unclean, after serialization it turned into "type:\\/\\/" which is ugly, now i have used "type::" identifier.
+
+I have added a method class, you can use it to implement custom freeze and defreeze methods for you complex/custom data types.
+
+you can no more pass globals to the loads function, you must create a lambdaJSON instance while passing the globals function to it.
+See the examples for more info.
+
+I've redesigned lambdaJSON, i don't know which parts still needs some work, mail me or post an issue if you've found one, I'd be glad to solve it.
+
+Examples
+========
+
+** From v0.2.19 you can use dumps, loads instead of serialize, deserialize. **
+
 Typical usage::
 
     #!/usr/bin/env python
@@ -33,7 +54,7 @@ It can be done for ujson too. You can also serialize python functions::
     'lambdaJSON Rocks!'
     >>>
 
-Changed int 0.2.4, for function deserialization you must pass a function which returns the list of globals for the function::
+You can no more pass globals to deserialize/dumps methods, so the following code will not work::
 
     >>> import lambdaJSON
     >>> y = 10
@@ -47,8 +68,24 @@ Changed int 0.2.4, for function deserialization you must pass a function which r
     >>> myNewFunction(5)
     15
     >>>
+	
+instead, you can do this::
 
-If no globs passed to function, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
+    >>> from lambdaJSON import lambdaJSON
+	>>> lj = lambdaJSON(globs = (lambda: globals()))
+    >>> y = 10
+    >>> def f(x): return x*y
+    
+    >>> mySerializedFunction = lj.dumps(f)
+    >>> myNewFunction  = lj.loads(mySerializedFunction)
+    >>> myNewFunction(5)
+    50
+    >>> y = 3
+    >>> myNewFunction(5)
+    15
+    >>>
+
+If no globs passed to class instance, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs local globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
 
     >>> z = 10
     >>> def g():
@@ -58,8 +95,10 @@ If no globs passed to function, the globs will be just the __builtins__ module. 
     
     >>> def f(x,y): return x*y+z
     
-    >>> mySerializedFunction = lambdaJSON.serialize(f)
-    >>> myNewFunction  = lambdaJSON.deserialize(mySerializedFunction, globs = g)
+	>>> from lambdaJSON import lambdaJSON
+	>>> lj = lambdaJSON(globs = g)
+    >>> mySerializedFunction = lj.dumps(f)
+    >>> myNewFunction  = lj.loads(mySerializedFunction)
     >>> myNewFunction(2,3)
     17
     >>> myNewFunction(2,3)
@@ -84,14 +123,34 @@ introduced in version 0.2.15, you can now serialize basic classes and types. The
                 self.var = 'lambdaJSON'
     
     >>> serializedClass = lambdaJSON.serialize(test)
-    >>> newClass = lambdaJSON.deserialize(serializedClass, globs = lambda: globals())
+    >>> newClass = lambdaJSON.deserialize(serializedClass)
     >>> newClass().var
     'lambdaJSON'
     >>> 
 
 To check version, simply use lambdaJSON.__version__, or if you want to know which json lib is in use, try lambdaJSON.__json__
 
-After the support for all types are added, I'm planning to release a query friendly version of this library, that will be in version 0.3.0.
+Implement your own method
+=========================
+It is so easy to implement your own method to be used with lambdaJSON, you can use lambdaJSON.addMethod function::
+
+	>>> from lambdaJSON import lambdaJSON
+	>>> lj = lambdaJSON()	#No globals passed, using globs = (lambda: globals())
+    >>> lj.addMethod(name, type, freezer, defreezer)
+	
+name must be of type str, and be unique, do not use names of the builtin types like tuple, str, complex, etc...
+type is the type you want to add a method for. it must be a type.
+freezer and defreezer are functions, freezer must return str, defreezer must receive the str and turn it back to the initial object.
+both functions should have obj keyword::
+
+	>>> def myFreezer(obj):
+			#do something and return a string.
+
+	>>> def myDefreezer(obj):
+			#get the string and defreeze it.
+			
+Explore source code for more info.
+
 
 The json lib
 ============
@@ -118,7 +177,10 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Functions default arg values are now serialized.
+No more lambdas, more clean code.
+lambdaJSON is now a class.
+Now you can easily add Freeze and Defreeze methods.
+Changed Identifier format.
 
 Download
 ========

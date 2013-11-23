@@ -1,4 +1,4 @@
-v0.2.19, November 23 2013
+v0.3.0, November 23 2013
 -- No more lambdas, more clean code.
 -- lambdaJSON is now a class.
 -- Now you can easily add Freeze and Defreeze methods.
