@@ -15,7 +15,7 @@ freezef = lambda function:         (lambda code = (hasattr(function, '__code__')
                                    'co_name': code.co_name,
                                    'co_firstlineno': code.co_firstlineno,
                                    'co_lnotab': code.co_lnotab,
-                                   'defaults':function.__defaults__ or []})()
+                                   'defaults':function.__defaults__ or tuple()})()
 
 defreezef = lambda co_dict, globs:\
                                    eval("""(lambda lambdaJSON_globs = globs,

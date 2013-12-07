@@ -9,9 +9,10 @@ except: import json; __json__ = 'json'
 try: from ast import literal_eval as eval
 except: pass
 from lambdaJSON.functions import defreezef, freezef
+from lambdaJSON import classes
 from __main__ import __builtins__
 
-__version__ = '0.3.0'
+__version__ = '0.3.1'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
@@ -30,72 +31,66 @@ class lambdaJSON():
         self.globs = globs
         self.json = json
         self.methods = [method('tuple', tuple,
-                               freezer = lambda obj: str(tuple([self.flatten(i) for i in obj])),
-                               defreezer = lambda obj: tuple([self.restore(i) for i in eval(obj[8:])])),
+                               freezer = lambda obj, self: str(tuple([self.flatten(i) for i in obj])),
+                               defreezer = lambda obj, self: tuple([self.restore(i) for i in eval(obj[8:])])),
 
                         method('exception', BaseException,
-                               freezer = lambda obj: str([str(i) for i in obj.__reduce__()]),
-                               defreezer = lambda obj: (lambda x = eval(obj[12:]): __builtins__.eval('%s(*%s)'%(x[0][8:-2],x[1])))()),
+                               freezer = lambda obj, self: str([str(i) for i in obj.__reduce__()]),
+                               defreezer = lambda obj, self: (lambda x = eval(obj[12:]): __builtins__.eval('%s(*%s)'%(x[0][8:-2],x[1])))()),
 
                         method('set', set,
-                               freezer = lambda obj: str([self.flatten(i) for i in obj]),
-                               defreezer = lambda obj: set([self.restore(i) for i in eval(obj[6:])])),
+                               freezer = lambda obj, self: str([self.flatten(i) for i in obj]),
+                               defreezer = lambda obj, self: set([self.restore(i) for i in eval(obj[6:])])),
 
                         method('frozenset', frozenset,
-                               freezer = lambda obj: str([self.flatten(i) for i in obj]),
-                               defreezer = lambda obj: frozenset([self.restore(i) for i in eval(obj[12:])])),
+                               freezer = lambda obj, self: str([self.flatten(i) for i in obj]),
+                               defreezer = lambda obj, self: frozenset([self.restore(i) for i in eval(obj[12:])])),
 
                         method('range', range,
-                               freezer = lambda obj: str(obj)[5:],
-                               defreezer = lambda obj: range(*eval(x[8:]))),
+                               freezer = lambda obj, self: str(obj)[5:],
+                               defreezer = lambda obj, self: range(*eval(x[8:]))),
 
                         method('complex', complex,
-                               freezer = lambda obj: str(obj),
-                               defreezer = lambda obj: complex(obj[10:])),
+                               freezer = lambda obj, self: str(obj),
+                               defreezer = lambda obj, self: complex(obj[10:])),
 
                         method('type', type,
-                               freezer = lambda obj: (str([obj.__name__,str(obj.__bases__),
-                                                      self.flatten({f:obj.__dict__[f] for f in obj.__dict__
-                                                      if callable(obj.__dict__[f])})])),
-                               defreezer = lambda obj: (lambda x = eval(obj[7:]):type(x[0],tuple((self.globs()[i])
-                                                        if     i in self.globs() else __builtins__.eval(i)
-                                                        for    i in [(i[9:] if i.startswith('__main__.') else i)
-                                                        for    i in [(i[8:-2] if i.endswith('>') else i[8:-3])
-                                                        for    i in x[1][1:-1].split(', ')]]),self.restore(x[2])))()),
+                               freezer = classes.freeze,
+                               defreezer = classes.defreeze),
 
                         method('function', type(lambda: None),
-                               freezer = lambda obj: str(self.freezef(obj)),
-                               defreezer = lambda obj: self.defreezef(eval(obj[11:]))),
+                               freezer = lambda obj, self: str(self.freezef(obj)),
+                               defreezer = lambda obj, self: self.defreezef(eval(obj[11:]))),
 
                         method('list', list,
-                               freezer = lambda obj: [self.flatten(i) for i in obj],
-                               defreezer = lambda obj: [self.restore(i) for i in obj]),
+                               freezer = lambda obj, self: [self.flatten(i) for i in obj],
+                               defreezer = lambda obj, self: [self.restore(i) for i in obj]),
 
                         method('dict', dict,
-                               freezer = lambda obj: {(self.flatten(i) if not isinstance(i, (bool, float, complex))
+                               freezer = lambda obj, self: {(self.flatten(i) if not isinstance(i, (bool, float, complex))
                                                        else str(type(i))[8:-2]+'-->'+str(i))
                                                        :self.flatten(obj[i]) for i in obj},
-                               defreezer = lambda obj: {self.restore(i):self.restore(obj[i]) for i in obj})]
+                               defreezer = lambda obj, self: {self.restore(i):self.restore(obj[i]) for i in obj})]
 
         if hasattr(__builtins__, 'bytes'):
             self.methods.append(method('bytes', bytes,
-                                       freezer = lambda obj: obj.decode('utf8'),
-                                       defreezer = lambda obj: bytes(obj[8:], encoding = 'utf8')))
+                                       freezer = lambda obj, self: obj.decode('utf8'),
+                                       defreezer = lambda obj, self: bytes(obj[8:], encoding = 'utf8')))
 
         if hasattr(__builtins__, 'bytearray'):
             self.methods.append(method('bytearray', bytearray,
-                                       freezer = lambda obj: str([i for i in obj]),
-                                       defreezer = lambda obj: bytearray(eval(obj[12:]))))
+                                       freezer = lambda obj, self: str([i for i in obj]),
+                                       defreezer = lambda obj, self: bytearray(eval(obj[12:]))))
 
         if hasattr(__builtins__, 'memoryview'):
             self.methods.append(method('memoryview', memoryview,
-                                       freezer = lambda obj: str([i for i in obj]),
-                                       defreezer = lambda obj: memoryview(bytearray(eval(obj[13:])))))
+                                       freezer = lambda obj, self: str([i for i in obj]),
+                                       defreezer = lambda obj, self: memoryview(bytearray(eval(obj[13:])))))
 
     def flatten(self, obj):
         try:
             freeze_method = [m for m in self.methods if isinstance(obj, m.type)][0]
-            freezed = freeze_method.freezer(obj)
+            freezed = freeze_method.freezer(obj, self)
             return (freeze_method.name+'-->'+freezed if isinstance(freezed, str) else freezed)
         except: return obj
 
@@ -106,8 +101,10 @@ class lambdaJSON():
             if not restore_method:
                 restore_method = [t for t in ntypes if obj.startswith(str(t)[8:-2]+'-->')]
                 if restore_method: return eval(obj[len(str(restore_method[0]))-7:])
-            return restore_method[0].defreezer(obj)
-        except: return obj
+            return restore_method[0].defreezer(obj, self)
+        except Exception as e:
+            print(e)
+            return obj
 
     def addMethod(self, name, type, freezer, defreezer):
          self.methods.append(method(name, type, freezer, defreezer))

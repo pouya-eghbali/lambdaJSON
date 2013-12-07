@@ -1,4 +1,6 @@
-<<<<<<< HEAD
+v0.3.1, December 07 2013
+-- Better support for class serialization.
+
 v0.3.0, November 23 2013
 -- No more lambdas, more clean code.
 -- lambdaJSON is now a class.
@@ -8,8 +10,6 @@ v0.3.0, November 23 2013
 v0.2.19, September 24 2013
 -- Added dumps, loads.
 
-=======
->>>>>>> 12be9c48988d24677cf8e0d06a85058b3cb85d8a
 v0.2.18, September 18 2013
 -- Fixed a problem with function freezing.
 

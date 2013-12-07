@@ -1,9 +1,15 @@
+.. image:: https://pypip.in/v/lambdaJSON/badge.png
+    :target: https://pypi.python.org/pypi/lambdaJSON/
+    :alt: Latest PyPI version
+
+.. image:: https://pypip.in/d/lambdaJSON/badge.png
+    :target: https://pypi.python.org/pypi/lambdaJSON/
+    :alt: Number of PyPI downloads
+
+
+===========
 lambdaJSON
 ===========
-[![PyPi version](https://pypip.in/v/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
-[![PyPi downloads](https://pypip.in/d/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
-
-
 Serialize python standard types (function, tuple, class, memoryview, set, frozenset, exceptions, complex, range, bytes, bytearray, dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects with json.
 
@@ -12,7 +18,7 @@ V0.3.0 Changes
 ==============
 Code is more clean, i used class and function definitions instead of lambda to improve readability.
 now, there is a lambdaJSON class, the freezer and defreezer class, you can have as many custom lambdaJSON instances you may need.
-Identifier method changed. previously i used "type://" identifier, this was unclean, after serialization it turned into "type:\\/\\/" which is ugly, now i have used "type::" identifier.
+Method identifier changed. previously i used "type://" identifier, this was unclean, after serialization it turned into "type:\\/\\/" which is ugly, now i have used "type::" identifier.
 
 I have added a method class, you can use it to implement custom freeze and defreeze methods for you complex/custom data types.
 
@@ -72,7 +78,7 @@ You can no more pass globals to deserialize/dumps methods, so the following code
 instead, you can do this::
 
     >>> from lambdaJSON import lambdaJSON
-	>>> lj = lambdaJSON(globs = (lambda: globals()))
+    >>> lj = lambdaJSON(globs = (lambda: globals()))
     >>> y = 10
     >>> def f(x): return x*y
     
@@ -95,8 +101,8 @@ If no globs passed to class instance, the globs will be just the __builtins__ mo
     
     >>> def f(x,y): return x*y+z
     
-	>>> from lambdaJSON import lambdaJSON
-	>>> lj = lambdaJSON(globs = g)
+    >>> from lambdaJSON import lambdaJSON
+    >>> lj = lambdaJSON(globs = g)
     >>> mySerializedFunction = lj.dumps(f)
     >>> myNewFunction  = lj.loads(mySerializedFunction)
     >>> myNewFunction(2,3)
@@ -134,8 +140,8 @@ Implement your own method
 =========================
 It is so easy to implement your own method to be used with lambdaJSON, you can use lambdaJSON.addMethod function::
 
-	>>> from lambdaJSON import lambdaJSON
-	>>> lj = lambdaJSON()	#No globals passed, using globs = (lambda: globals())
+    >>> from lambdaJSON import lambdaJSON
+    >>> lj = lambdaJSON()	#No globals passed, using globs = (lambda: globals())
     >>> lj.addMethod(name, type, freezer, defreezer)
 	
 name must be of type str, and be unique, do not use names of the builtin types like tuple, str, complex, etc...
@@ -143,11 +149,11 @@ type is the type you want to add a method for. it must be a type.
 freezer and defreezer are functions, freezer must return str, defreezer must receive the str and turn it back to the initial object.
 both functions should have obj keyword::
 
-	>>> def myFreezer(obj):
-			#do something and return a string.
+    >>> def myFreezer(obj, lj): #lj is the lambdaJSON instance calling this function
+            #do something and return a string.
 
-	>>> def myDefreezer(obj):
-			#get the string and defreeze it.
+    >>> def myDefreezer(obj, lj):
+            #get the string and defreeze it.
 			
 Explore source code for more info.
 
@@ -177,22 +183,12 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-No more lambdas, more clean code.
-lambdaJSON is now a class.
-Now you can easily add Freeze and Defreeze methods.
-Changed Identifier format.
-
-Download
-========
-
-Download package from here: https://pypi.python.org/pypi/lambdaJSON
+Better support for class serialization.
 
 Project Info
 ============
 
 Github project page: https://github.com/pooya-eghbali/lambdaJSON
-PyPi: https://pypi.python.org/pypi/lambdaJSON
 Mail me at: persian.writer [at] Gmail.com
 
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pooya-eghbali/lambdajson/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+Contact me if there were any issues or you had a feature request. you can also post issues on github.
