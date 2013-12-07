@@ -1,15 +1,8 @@
-.. image:: https://pypip.in/v/lambdaJSON/badge.png
-    :target: https://pypi.python.org/pypi/lambdaJSON/
-    :alt: Latest PyPI version
-
-.. image:: https://pypip.in/d/lambdaJSON/badge.png
-    :target: https://pypi.python.org/pypi/lambdaJSON/
-    :alt: Number of PyPI downloads
-
-
-===========
 lambdaJSON
 ===========
+[![PyPi version](https://pypip.in/v/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
+[![PyPi downloads](https://pypip.in/d/lambdaJSON/badge.png)](https://pypi.python.org/pypi/lambdaJSON)
+
 Serialize python standard types (function, tuple, class, memoryview, set, frozenset, exceptions, complex, range, bytes, bytearray, dict with number keys, byte keys or tuple keys, and etc) with json.
 lambdaJSON lets you serialize python standard library objects with json.
 
@@ -185,10 +178,17 @@ Changes from previous
 
 Better support for class serialization.
 
+Download
+========
+
+Download package from here: https://pypi.python.org/pypi/lambdaJSON
+
 Project Info
 ============
 
 Github project page: https://github.com/pooya-eghbali/lambdaJSON
+PyPi: https://pypi.python.org/pypi/lambdaJSON
 Mail me at: persian.writer [at] Gmail.com
 
-Contact me if there were any issues or you had a feature request. you can also post issues on github.
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/pooya-eghbali/lambdajson/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
