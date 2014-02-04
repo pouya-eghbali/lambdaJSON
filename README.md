@@ -7,6 +7,10 @@ Serialize python standard types (function, tuple, class, memoryview, set, frozen
 lambdaJSON lets you serialize python standard library objects with json.
 
 
+V0.4.0 Changes
+==============
+This release is not compatible with previous versions. i used marshal to freeze functions, it is better and this way we'll have cleaner code.
+
 V0.3.0 Changes
 ==============
 Code is more clean, i used class and function definitions instead of lambda to improve readability.
@@ -84,6 +88,7 @@ instead, you can do this::
     15
     >>>
 
+***This will not work from version 0.4.0***
 If no globs passed to class instance, the globs will be just the __builtins__ module. Note that passing globals will pass the lambdaJSONs local globals and it will not work, if you want to include all the globals from where the deserialization function is called, just use globs = (lambda: globals()), else implement your own function. You can do some nice hacks too::
 
     >>> z = 10
@@ -103,6 +108,8 @@ If no globs passed to class instance, the globs will be just the __builtins__ mo
     >>> myNewFunction(2,3)
     18
     >>>
+	
+In version 0.4.0, the function is created as a real python function, not a lambda hack, so you can no more do things like above.
 
 You can serialize Builtin Exceptions like this::
 
@@ -176,7 +183,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Better support for class serialization.
+Better support for function serialization.
 
 Download
 ========
