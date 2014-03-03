@@ -1,3 +1,6 @@
+v0.4.1, March 04 2014
+-- Better support for class serialization.
+
 v0.4.0, February 04 2014
 -- Better support for function serialization.
 -- backwards incompatible release.

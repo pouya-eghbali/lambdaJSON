@@ -183,7 +183,7 @@ This types are covered in this version:
 Changes from previous
 =====================
 
-Better support for function serialization.
+Better support for class serialization.
 
 Download
 ========

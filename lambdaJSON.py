@@ -12,7 +12,7 @@ from lambdaJSON.functions import defreezef, freezef
 from lambdaJSON import classes
 from __main__ import __builtins__
 
-__version__ = '0.4.0'
+__version__ = '0.4.1'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
@@ -93,6 +93,14 @@ class lambdaJSON():
             freezed = freeze_method.freezer(obj, self)
             return (freeze_method.name+'-->'+freezed if isinstance(freezed, str) else freezed)
         except: return obj
+
+    def testAndFlat(self, obj):
+        try:
+            freeze_method = [m for m in self.methods if isinstance(obj, m.type)][0]
+            freezed = freeze_method.freezer(obj, self)
+            return (freeze_method.name+'-->'+freezed if isinstance(freezed, str) else freezed)
+        except:
+            return json.dumps(obj)
 
     def restore(self, obj):
         try:
