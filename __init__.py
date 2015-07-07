@@ -84,8 +84,8 @@ class lambdaJSON():
 
         if hasattr(__builtins__, 'memoryview'):
             self.methods.append(method('memoryview', memoryview,
-                                       freezer = lambda obj, self: str([i for i in obj]),
-                                       defreezer = lambda obj, self: memoryview(bytearray(eval(obj[13:])))))
+                                       freezer = lambda obj, self: self.flatten(obj.obj),
+                                       defreezer = lambda obj, self: memoryview(self.restore(obj))
 
     def flatten(self, obj):
         try:
