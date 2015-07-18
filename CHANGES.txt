@@ -1,3 +1,9 @@
+v4.2, July 18 2015
+-- Changed version numbering to indicate we're stable
+
+v0.4.2, July 07 2015
+-- Better support for memoryview, simpler code
+
 v0.4.1, March 04 2014
 -- Better support for class serialization.
 

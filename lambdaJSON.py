@@ -12,7 +12,7 @@ from lambdaJSON.functions import defreezef, freezef
 from lambdaJSON import classes
 from __main__ import __builtins__
 
-__version__ = '0.4.1'
+__version__ = '4.2'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
@@ -84,8 +84,8 @@ class lambdaJSON():
 
         if hasattr(__builtins__, 'memoryview'):
             self.methods.append(method('memoryview', memoryview,
-                                       freezer = lambda obj, self: str([i for i in obj]),
-                                       defreezer = lambda obj, self: memoryview(bytearray(eval(obj[13:])))))
+                                       freezer = lambda obj, self: self.flatten(obj.obj),
+                                       defreezer = lambda obj, self: memoryview(self.restore(obj))))
 
     def flatten(self, obj):
         try:
