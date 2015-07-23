@@ -64,7 +64,7 @@ class lambdaJSON():
                                                        :self.flatten(obj[i]) for i in obj},
                                defreezer = lambda obj, self: {self.restore(i):self.restore(obj[i]) for i in obj})]
 
-        if (lambda:0).__code__:
+        if type(range) == type(abs):
             self.methods.append(method('function', type(lambda: None),
                                    freezer = lambda obj, self: str(self.freezef(obj)),
                                    defreezer = lambda obj, self: self.defreezef(obj[11:])))
