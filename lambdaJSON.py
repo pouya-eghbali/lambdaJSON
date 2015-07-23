@@ -12,7 +12,7 @@ from lambdaJSON.functions import defreezef, freezef
 from lambdaJSON import classes
 from __main__ import __builtins__
 
-__version__ = '4.2'
+__version__ = '4.3'
 __author__  = 'Pooya Eghbali [persian.writer at gmail]'
 
 ntypes  = (                    (hasattr(__builtins__, 'long')
@@ -46,10 +46,6 @@ class lambdaJSON():
                                freezer = lambda obj, self: str([self.flatten(i) for i in obj]),
                                defreezer = lambda obj, self: frozenset([self.restore(i) for i in eval(obj[12:])])),
 
-                        method('range', range,
-                               freezer = lambda obj, self: str(obj)[5:],
-                               defreezer = lambda obj, self: range(*eval(x[8:]))),
-
                         method('complex', complex,
                                freezer = lambda obj, self: str(obj),
                                defreezer = lambda obj, self: complex(obj[10:])),
@@ -57,10 +53,6 @@ class lambdaJSON():
                         method('type', type,
                                freezer = classes.freeze,
                                defreezer = classes.defreeze),
-
-                        method('function', type(lambda: None),
-                               freezer = lambda obj, self: str(self.freezef(obj)),
-                               defreezer = lambda obj, self: self.defreezef(eval(obj[11:]))),
 
                         method('list', list,
                                freezer = lambda obj, self: [self.flatten(i) for i in obj],
@@ -71,6 +63,20 @@ class lambdaJSON():
                                                        else str(type(i))[8:-2]+'-->'+str(i))
                                                        :self.flatten(obj[i]) for i in obj},
                                defreezer = lambda obj, self: {self.restore(i):self.restore(obj[i]) for i in obj})]
+
+        if (lambda:0).__code__:
+            self.methods.append(method('function', type(lambda: None),
+                                   freezer = lambda obj, self: str(self.freezef(obj)),
+                                   defreezer = lambda obj, self: self.defreezef(obj[11:])))
+        else:
+            self.methods.append(method('function', type(lambda: None),
+                                   freezer = lambda obj, self: str(self.freezef(obj)),
+                                   defreezer = lambda obj, self: self.defreezef(eval(obj[11:]))))
+
+        if type(range) != type(abs):
+            self.methods.append(method('range', range,
+                                       freezer = lambda obj, self: str(obj)[5:],
+                                       defreezer = lambda obj, self: range(*eval(x[8:]))))
 
         if hasattr(__builtins__, 'bytes'):
             self.methods.append(method('bytes', bytes,
@@ -110,7 +116,7 @@ class lambdaJSON():
                 restore_method = [t for t in ntypes if obj.startswith(str(t)[8:-2]+'-->')]
                 if restore_method: return eval(obj[len(str(restore_method[0]))-7:])
             return restore_method[0].defreezer(obj, self)
-        except Exception as e:
+        except:
             return obj
 
     def addMethod(self, name, type, freezer, defreezer):
